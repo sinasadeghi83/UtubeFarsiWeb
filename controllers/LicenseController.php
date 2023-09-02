@@ -54,6 +54,26 @@ class LicenseController extends ActiveController
         return $actions;
     }
 
+    public function actionBuy($id)
+    {
+        $user = \Yii::$app->user->identity;
+        // TODO payment stuff
+        if (!is_array($errors = $user->addLicense($id))) {
+            $userLicense = $errors;
+
+            return [
+                'license' => License::findOne(['id' => $id]),
+                'created_at' => $userLicense->created_at,
+            ];
+        }
+
+        \Yii::$app->response->statusCode = 400;
+
+        return [
+            'errors' => $errors,
+        ];
+    }
+
     /**
      * @return object|\yii\data\ActiveDataProvider
      */

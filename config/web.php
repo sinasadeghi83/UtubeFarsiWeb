@@ -53,7 +53,11 @@ $config = [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'license',
-                    'only' => ['index', 'view', 'options'],
+                    'except' => ['delete', 'update', 'create'],
+                    'extraPatterns' => [
+                        'GET buy' => 'buy',
+                        // other patterns
+                    ],
                 ],
             ],
         ],

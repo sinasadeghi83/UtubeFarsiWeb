@@ -4,22 +4,19 @@ use yii\db\Migration;
 
 /**
  * Handles the creation of table `{{%user_license}}`.
- * Has foreign keys to the tables:
+ * Has foreign keys to the tables:.
  *
  * - `{{%user}}`
  * - `{{%license}}`
  */
 class m230829_100409_create_junction_table_for_user_and_license_table extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%user_license}}', [
             'user_id' => $this->integer(),
             'license_id' => $this->integer(),
-            'created_at' => $this->timestamp()->notNull(),
+            'created_at' => $this->timestamp()->notNull().' DEFAULT NOW()',
             'PRIMARY KEY(user_id, license_id)',
         ]);
 
@@ -58,9 +55,6 @@ class m230829_100409_create_junction_table_for_user_and_license_table extends Mi
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         // drops foreign key for table `{{%user}}`
