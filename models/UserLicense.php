@@ -5,11 +5,13 @@ namespace app\models;
 /**
  * This is the model class for table "user_license".
  *
- * @property int     $user_id
- * @property int     $license_id
- * @property string  $created_at
- * @property License $license
- * @property User    $user
+ * @property int      $id
+ * @property null|int $user_id
+ * @property null|int $license_id
+ * @property string   $payment_id
+ * @property string   $created_at
+ * @property License  $license
+ * @property User     $user
  */
 class UserLicense extends \yii\db\ActiveRecord
 {
@@ -21,11 +23,11 @@ class UserLicense extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'license_id'], 'required'],
-            ['created_at', 'safe'],
             [['user_id', 'license_id'], 'integer'],
+            [['payment_id'], 'required'],
             [['created_at'], 'safe'],
-            [['user_id', 'license_id'], 'unique', 'targetAttribute' => ['user_id', 'license_id']],
+            [['payment_id'], 'string', 'max' => 255],
+            [['payment_id'], 'unique'],
             [['license_id'], 'exist', 'skipOnError' => true, 'targetClass' => License::class, 'targetAttribute' => ['license_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -34,8 +36,10 @@ class UserLicense extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            'id' => \Yii::t('app', 'ID'),
             'user_id' => \Yii::t('app', 'User ID'),
             'license_id' => \Yii::t('app', 'License ID'),
+            'payment_id' => \Yii::t('app', 'Payment ID'),
             'created_at' => \Yii::t('app', 'Created At'),
         ];
     }

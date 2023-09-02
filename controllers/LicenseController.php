@@ -3,10 +3,12 @@
 namespace app\controllers;
 
 use app\models\License;
+use app\models\Transaction;
 use sizeg\jwt\JwtHttpBearerAuth;
 use yii\data\ActiveDataProvider;
 use yii\rest\Action;
 use yii\rest\ActiveController;
+use yii\web\ConflictHttpException;
 use yii\web\NotFoundHttpException;
 
 class LicenseController extends ActiveController
@@ -54,11 +56,18 @@ class LicenseController extends ActiveController
         return $actions;
     }
 
-    public function actionBuy($id)
+    public function actionBuy($id, $payid)
     {
         $user = \Yii::$app->user->identity;
-        // TODO payment stuff
-        if (!is_array($errors = $user->addLicense($id))) {
+        if ($user->activeLicense()) {
+            throw new ConflictHttpException('You already has an active license!');
+        }
+        $transaction = Transaction::retrieveFromPayId($payid);
+        if (Transaction::PAID != $transaction->status) {
+            throw new NotFoundHttpException('Payment has been failed!');
+        }
+
+        if (!is_array($errors = $user->addLicense($id, $payid))) {
             $userLicense = $errors;
 
             return [

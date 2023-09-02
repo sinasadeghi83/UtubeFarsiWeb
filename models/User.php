@@ -68,7 +68,18 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $this->hasMany(UserLicense::class, ['user_id' => 'id']);
     }
 
-    public function addLicense($license_id)
+    public function activeLicense()
+    {
+        return License::find()
+            ->select('license.*')
+            ->leftJoin('user_license', 'user_license.license_id = license.id')
+            ->where(['user_license.user_id' => $this->id])
+            ->andWhere('(UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(user_license.created_at)) < license.length')
+            ->one()
+        ;
+    }
+
+    public function addLicense($license_id, $payid)
     {
         $license = License::findOne(['id' => $license_id, 'status' => 1]);
         if (!$license) {
@@ -77,6 +88,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         $userLicense = new UserLicense();
         $userLicense->user_id = $this->id;
         $userLicense->license_id = $license_id;
+        $userLicense->payment_id = $payid;
 
         $result = $userLicense->save();
 

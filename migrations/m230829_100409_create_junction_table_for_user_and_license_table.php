@@ -14,10 +14,11 @@ class m230829_100409_create_junction_table_for_user_and_license_table extends Mi
     public function safeUp()
     {
         $this->createTable('{{%user_license}}', [
+            'id' => $this->primaryKey(),
             'user_id' => $this->integer(),
             'license_id' => $this->integer(),
+            'payment_id' => $this->string()->unique()->notNull(),
             'created_at' => $this->timestamp()->notNull().' DEFAULT NOW()',
-            'PRIMARY KEY(user_id, license_id)',
         ]);
 
         // creates index for column `user_id`
