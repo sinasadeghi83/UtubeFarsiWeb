@@ -20,7 +20,7 @@ class m230903_171749_create_channel_table extends Migration
             'youtube_subscribers' => $this->integer()->notNull(),
             'youtube_views' => $this->integer(),
             'joined_at' => $this->timestamp()->notNull(),
-            'updated_at' => $this->timestamp()->notNull().' DEFAULT NOW()',
+            'updated_at' => $this->timestamp()->notNull().' DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
         ]);
     }
 

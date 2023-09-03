@@ -13,6 +13,7 @@ namespace app\models;
  * @property string         $publish_date
  * @property string         $youtube_link
  * @property string         $video_path
+ * @property string         $updated_at
  * @property string         $created_at
  * @property Channel        $channel
  * @property HashtagVideo[] $hashtagVideos
@@ -30,7 +31,7 @@ class Video extends \yii\db\ActiveRecord
         return [
             [['title', 'channel_id', 'youtube_views', 'publish_date', 'youtube_link', 'video_path'], 'required'],
             [['channel_id', 'youtube_views'], 'integer'],
-            [['publish_date', 'created_at'], 'safe'],
+            [['publish_date', 'updated_at', 'created_at'], 'safe'],
             [['title', 'descriptions', 'youtube_link', 'video_path'], 'string', 'max' => 255],
             [['channel_id'], 'exist', 'skipOnError' => true, 'targetClass' => Channel::class, 'targetAttribute' => ['channel_id' => 'id']],
         ];
@@ -47,6 +48,7 @@ class Video extends \yii\db\ActiveRecord
             'publish_date' => \Yii::t('app', 'Publish Date'),
             'youtube_link' => \Yii::t('app', 'Youtube Link'),
             'video_path' => \Yii::t('app', 'Video Path'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
             'created_at' => \Yii::t('app', 'Created At'),
         ];
     }

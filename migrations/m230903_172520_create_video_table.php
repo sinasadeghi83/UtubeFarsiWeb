@@ -21,6 +21,7 @@ class m230903_172520_create_video_table extends Migration
             'publish_date' => $this->timestamp()->notNull(),
             'youtube_link' => $this->string()->notNull(),
             'video_path' => $this->string()->notNull(),
+            'updated_at' => $this->timestamp()->notNull().' DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
             'created_at' => $this->timestamp()->notNull().' DEFAULT NOW()',
         ]);
 
