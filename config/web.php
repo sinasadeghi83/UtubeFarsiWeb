@@ -50,6 +50,7 @@ $config = [
                 'stream/<fileName>' => 'stream/index', // Maps any other action to SiteController's index action
                 'stream/key/<videoName>' => 'stream/key', // Maps any other action to SiteController's index action
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'admin/license'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'admin/channel'],
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'license',
