@@ -1,26 +1,23 @@
 <?php
 
-namespace app\models;
+namespace app\modules\admin\models;
 
 use yii\helpers\Url;
-use yii\web\NotFoundHttpException;
 
 /**
- * This is the model class for table "user".
+ * This is the model class for table "adminuser".
  *
- * @property int           $id
- * @property null|string   $username
- * @property null|string   $name
- * @property string        $password
- * @property string        $phone
- * @property License[]     $licenses
- * @property UserLicense[] $userLicenses
+ * @property int         $id
+ * @property null|string $username
+ * @property null|string $name
+ * @property string      $password
+ * @property string      $phone
  */
-class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
+class AdminUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
     public static function tableName()
     {
-        return 'user';
+        return 'adminuser';
     }
 
     public function rules()
@@ -46,59 +43,6 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'password' => 'Password',
             'phone' => 'Phone',
         ];
-    }
-
-    /**
-     * Gets query for [[Licenses]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getLicenses()
-    {
-        return $this->hasMany(License::class, ['id' => 'license_id'])->viaTable('user_license', ['user_id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[UserLicenses]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUserLicenses()
-    {
-        return $this->hasMany(UserLicense::class, ['user_id' => 'id']);
-    }
-
-    public function activeLicense()
-    {
-        return License::find()
-            ->select('license.*')
-            ->leftJoin('user_license', 'user_license.license_id = license.id')
-            ->where(['user_license.user_id' => $this->id])
-            ->andWhere('(UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(user_license.created_at)) < license.length')
-            ->one()
-        ;
-    }
-
-    public function addLicense($license_id, $payid)
-    {
-        $license = License::findOne(['id' => $license_id, 'status' => 1]);
-        if (!$license) {
-            throw new NotFoundHttpException("There's no active license with this id!");
-        }
-        $userLicense = new UserLicense();
-        $userLicense->user_id = $this->id;
-        $userLicense->license_id = $license_id;
-        $userLicense->payment_id = $payid;
-
-        $result = $userLicense->save();
-
-        if (!$result) {
-            return $userLicense->errors;
-        }
-
-        $userLicense->refresh();
-
-        return $userLicense;
     }
 
     public static function findIdentity($id)

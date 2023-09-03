@@ -1,5 +1,7 @@
 <?php
 
+use yii\web\Response;
+
 $params = require __DIR__.'/params.php';
 $db = require __DIR__.'/db.php';
 
@@ -10,6 +12,11 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
+    ],
+    'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+        ],
     ],
     'components' => [
         'request' => [
@@ -23,7 +30,7 @@ $config = [
             'class' => 'yii\web\Response',
             'on beforeSend' => function ($event) {
                 $response = $event->sender;
-                if (null !== $response->data) {
+                if (null !== $response->data && Response::FORMAT_JSON == $response->format) {
                     $response->data = [
                         'success' => $response->isSuccessful,
                         'status' => $response->statusCode,
@@ -42,6 +49,16 @@ $config = [
             'rules' => [
                 'stream/<fileName>' => 'stream/index', // Maps any other action to SiteController's index action
                 'stream/key/<videoName>' => 'stream/key', // Maps any other action to SiteController's index action
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'admin/license'],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'license',
+                    'except' => ['delete', 'update', 'create'],
+                    'extraPatterns' => [
+                        'GET buy' => 'buy',
+                        // other patterns
+                    ],
+                ],
             ],
         ],
         'cache' => [
