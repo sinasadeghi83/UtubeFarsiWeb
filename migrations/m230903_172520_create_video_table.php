@@ -15,9 +15,9 @@ class m230903_172520_create_video_table extends Migration
         $this->createTable('{{%video}}', [
             'id' => $this->primaryKey(),
             'title' => $this->string()->notNull(),
-            'descriptions' => $this->string(),
+            'descriptions' => $this->text(5000),
             'channel_id' => $this->integer()->notNull(),
-            'youtube_views' => $this->integer()->notNull(),
+            'youtube_views' => $this->string()->notNull(),
             'publish_date' => $this->timestamp()->notNull(),
             'youtube_link' => $this->string()->notNull(),
             'video_path' => $this->string()->notNull(),

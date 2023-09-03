@@ -9,7 +9,7 @@ namespace app\models;
  * @property string         $title
  * @property null|string    $descriptions
  * @property int            $channel_id
- * @property int            $youtube_views
+ * @property string         $youtube_views
  * @property string         $publish_date
  * @property string         $youtube_link
  * @property string         $video_path
@@ -30,9 +30,10 @@ class Video extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'channel_id', 'youtube_views', 'publish_date', 'youtube_link', 'video_path'], 'required'],
-            [['channel_id', 'youtube_views'], 'integer'],
+            [['descriptions'], 'string', 'max' => 5000],
+            [['channel_id'], 'integer'],
             [['publish_date', 'updated_at', 'created_at'], 'safe'],
-            [['title', 'descriptions', 'youtube_link', 'video_path'], 'string', 'max' => 255],
+            [['title', 'youtube_views', 'youtube_link', 'video_path'], 'string', 'max' => 255],
             [['channel_id'], 'exist', 'skipOnError' => true, 'targetClass' => Channel::class, 'targetAttribute' => ['channel_id' => 'id']],
         ];
     }

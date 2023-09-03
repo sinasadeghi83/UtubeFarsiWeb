@@ -12,8 +12,8 @@ namespace app\models;
  * @property null|string $links
  * @property null|string $header_path
  * @property null|string $prof_img_path
- * @property int         $youtube_subscribers
- * @property null|int    $youtube_views
+ * @property string      $youtube_subscribers
+ * @property string      $youtube_views
  * @property string      $joined_at
  * @property string      $updated_at
  * @property Video[]     $videos
@@ -28,10 +28,10 @@ class Channel extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'username', 'youtube_subscribers', 'joined_at'], 'required'],
-            [['youtube_subscribers', 'youtube_views'], 'integer'],
+            [['title', 'username', 'youtube_subscribers', 'youtube_views', 'joined_at'], 'required'],
+            [['description'], 'string', 'max' => 1000],
             [['joined_at', 'updated_at'], 'safe'],
-            [['title', 'username', 'description', 'links', 'header_path', 'prof_img_path'], 'string', 'max' => 255],
+            [['title', 'username', 'links', 'header_path', 'prof_img_path', 'youtube_subscribers', 'youtube_views'], 'string', 'max' => 255],
             [['username'], 'unique'],
         ];
     }
