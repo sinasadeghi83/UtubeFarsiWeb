@@ -2,8 +2,12 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\Channel;
+use app\modules\admin\models\ImageForm;
 use sizeg\jwt\JwtHttpBearerAuth;
 use yii\rest\ActiveController;
+use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 /**
  * Channel controller for the `admin` module.
@@ -22,5 +26,29 @@ class ChannelController extends ActiveController
         ];
 
         return $behaviors;
+    }
+
+    public function actionHeader($id)
+    {
+        $channel = Channel::findOne(['id' => $id]);
+        if (empty($channel)) {
+            throw new NotFoundHttpException("There's no such channel with this id!");
+        }
+        $model = new ImageForm();
+
+        $model->imageFile = UploadedFile::getInstanceByName('imageFile');
+        if ($path = $model->upload()) {
+            // file is uploaded successfully
+            $channel->header_path = $path;
+            $channel->save();
+
+            return $channel;
+        }
+
+        \Yii::$app->response->statusCode = 400;
+
+        return [
+            'errors' => $channel->errors,
+        ];
     }
 }

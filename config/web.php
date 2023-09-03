@@ -24,6 +24,7 @@ $config = [
             'cookieValidationKey' => 'ZhI4aQwaCmG5qpZdDstAAPqlSOIHVc17',
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
+                'multipart/form-data' => 'yii\web\MultipartFormDataParser',
             ],
         ],
         'response' => [
@@ -50,7 +51,18 @@ $config = [
                 'stream/<fileName>' => 'stream/index', // Maps any other action to SiteController's index action
                 'stream/key/<videoName>' => 'stream/key', // Maps any other action to SiteController's index action
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'admin/license'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'admin/channel'],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'admin/channel',
+                    'extraPatterns' => [
+                        'POST header/<id>' => 'header', // uploading header image
+                        // other patterns
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'admin/video',
+                ],
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'license',
