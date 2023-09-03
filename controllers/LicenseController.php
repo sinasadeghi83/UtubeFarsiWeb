@@ -63,9 +63,7 @@ class LicenseController extends ActiveController
             throw new ConflictHttpException('You already has an active license!');
         }
         $transaction = Transaction::retrieveFromPayId($payid);
-        if (Transaction::PAID != $transaction->status) {
-            throw new NotFoundHttpException('Payment has been failed!');
-        }
+        $transaction->validateTransaction($user);
 
         if (!is_array($errors = $user->addLicense($id, $payid))) {
             $userLicense = $errors;

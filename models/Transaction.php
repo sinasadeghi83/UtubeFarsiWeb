@@ -20,6 +20,17 @@ class Transaction extends Model
     public $status;
     public $created_at;
     public $type;
+    public $payer_info;
+
+    public function validateTransaction($user)
+    {
+        if ($this->payer_info->mobile != $user->phone) {
+            throw new NotFoundHttpException('Payer mobile doesn\'t match user phone number!');
+        }
+        if (Transaction::PAID != $this->status) {
+            throw new NotFoundHttpException('Payment has been failed!');
+        }
+    }
 
     public static function retrieveFromPayId($payid)
     {
@@ -73,6 +84,7 @@ class Transaction extends Model
         $transaction->status = $transObj->status;
         $transaction->created_at = $transObj->created_at;
         $transaction->type = $transObj->type;
+        $transaction->payer_info = $transObj->payer_info;
 
         return $transaction;
     }
