@@ -7,6 +7,17 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'yii\\symfonymailer\\' => array($vendorDir . '/yiisoft/yii2-symfonymailer/src'),
+    'yii\\queue\\sync\\' => array($vendorDir . '/yiisoft/yii2-queue/src/drivers/sync'),
+    'yii\\queue\\stomp\\' => array($vendorDir . '/yiisoft/yii2-queue/src/drivers/stomp'),
+    'yii\\queue\\sqs\\' => array($vendorDir . '/yiisoft/yii2-queue/src/drivers/sqs'),
+    'yii\\queue\\redis\\' => array($vendorDir . '/yiisoft/yii2-queue/src/drivers/redis'),
+    'yii\\queue\\gearman\\' => array($vendorDir . '/yiisoft/yii2-queue/src/drivers/gearman'),
+    'yii\\queue\\file\\' => array($vendorDir . '/yiisoft/yii2-queue/src/drivers/file'),
+    'yii\\queue\\db\\' => array($vendorDir . '/yiisoft/yii2-queue/src/drivers/db'),
+    'yii\\queue\\beanstalk\\' => array($vendorDir . '/yiisoft/yii2-queue/src/drivers/beanstalk'),
+    'yii\\queue\\amqp_interop\\' => array($vendorDir . '/yiisoft/yii2-queue/src/drivers/amqp_interop'),
+    'yii\\queue\\amqp\\' => array($vendorDir . '/yiisoft/yii2-queue/src/drivers/amqp'),
+    'yii\\queue\\' => array($vendorDir . '/yiisoft/yii2-queue/src'),
     'yii\\gii\\' => array($vendorDir . '/yiisoft/yii2-gii/src'),
     'yii\\faker\\' => array($vendorDir . '/yiisoft/yii2-faker/src'),
     'yii\\debug\\' => array($vendorDir . '/yiisoft/yii2-debug/src'),

@@ -55,7 +55,7 @@ $config = [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'admin/channel',
                     'extraPatterns' => [
-                        'POST header/<id>' => 'header', // uploading header imageو
+                        'POST header/<id>' => 'header', // uploading header image
                         'POST profile/<id>' => 'profile',
                         // other patterns
                     ],
@@ -63,6 +63,10 @@ $config = [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'admin/video',
+                    'extraPatterns' => [
+                        'POST upload/<id>' => 'upload', // uploading video
+                        // other patterns
+                    ],
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
@@ -75,6 +79,15 @@ $config = [
                 ],
             ],
         ],
+
+        'queue' => [
+            'class' => \yii\queue\db\Queue::class,
+            'db' => 'db', // DB connection component or its config
+            'tableName' => '{{%queue}}', // Table name
+            'channel' => 'default', // Queue channel key
+            'mutex' => \yii\mutex\MysqlMutex::class, // Mutex used to sync queries
+        ],
+
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],

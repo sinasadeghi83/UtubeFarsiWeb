@@ -31,6 +31,17 @@ class ComposerStaticInit340cf6b0dc0265530fb4d9a1d1176a3d
         'y' => 
         array (
             'yii\\symfonymailer\\' => 18,
+            'yii\\queue\\sync\\' => 15,
+            'yii\\queue\\stomp\\' => 16,
+            'yii\\queue\\sqs\\' => 14,
+            'yii\\queue\\redis\\' => 16,
+            'yii\\queue\\gearman\\' => 18,
+            'yii\\queue\\file\\' => 15,
+            'yii\\queue\\db\\' => 13,
+            'yii\\queue\\beanstalk\\' => 20,
+            'yii\\queue\\amqp_interop\\' => 23,
+            'yii\\queue\\amqp\\' => 15,
+            'yii\\queue\\' => 10,
             'yii\\gii\\' => 8,
             'yii\\faker\\' => 10,
             'yii\\debug\\' => 10,
@@ -134,6 +145,50 @@ class ComposerStaticInit340cf6b0dc0265530fb4d9a1d1176a3d
         'yii\\symfonymailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-symfonymailer/src',
+        ),
+        'yii\\queue\\sync\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-queue/src/drivers/sync',
+        ),
+        'yii\\queue\\stomp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-queue/src/drivers/stomp',
+        ),
+        'yii\\queue\\sqs\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-queue/src/drivers/sqs',
+        ),
+        'yii\\queue\\redis\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-queue/src/drivers/redis',
+        ),
+        'yii\\queue\\gearman\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-queue/src/drivers/gearman',
+        ),
+        'yii\\queue\\file\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-queue/src/drivers/file',
+        ),
+        'yii\\queue\\db\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-queue/src/drivers/db',
+        ),
+        'yii\\queue\\beanstalk\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-queue/src/drivers/beanstalk',
+        ),
+        'yii\\queue\\amqp_interop\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-queue/src/drivers/amqp_interop',
+        ),
+        'yii\\queue\\amqp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-queue/src/drivers/amqp',
+        ),
+        'yii\\queue\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-queue/src',
         ),
         'yii\\gii\\' => 
         array (

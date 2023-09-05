@@ -29,13 +29,22 @@ class Video extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'channel_id', 'youtube_views', 'publish_date', 'youtube_link', 'video_path'], 'required'],
+            [['title', 'channel_id', 'youtube_views', 'publish_date', 'youtube_link'], 'required'],
             [['descriptions'], 'string', 'max' => 5000],
             [['channel_id'], 'integer'],
-            [['publish_date', 'updated_at', 'created_at'], 'safe'],
+            [['publish_date', 'updated_at', 'created_at', 'video_path'], 'safe'],
             [['title', 'youtube_views', 'youtube_link', 'video_path'], 'string', 'max' => 255],
             [['channel_id'], 'exist', 'skipOnError' => true, 'targetClass' => Channel::class, 'targetAttribute' => ['channel_id' => 'id']],
         ];
+    }
+
+    public function setVideoByForm($videoForm)
+    {
+        $videoName = substr(md5($videoForm->videoFile->baseName), 6, 8);
+        $path = \Yii::getAlias('@webroot')."/media/video/{$this->id}/{$videoName}.m3u8";
+        $this->video_path = $path;
+
+        return $videoName;
     }
 
     public function attributeLabels()

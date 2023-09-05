@@ -1,16 +1,16 @@
 <?php
 
-$params = require __DIR__ . '/params.php';
-$db = require __DIR__ . '/db.php';
+$params = require __DIR__.'/params.php';
+$db = require __DIR__.'/db.php';
 
 $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'queue'],
     'controllerNamespace' => 'app\commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
         '@tests' => '@app/tests',
     ],
     'components' => [
@@ -26,7 +26,28 @@ $config = [
             ],
         ],
         'db' => $db,
+        'queue' => [
+            'class' => \yii\queue\db\Queue::class,
+            'db' => 'db', // DB connection component or its config
+            'tableName' => '{{%queue}}', // Table name
+            'channel' => 'default', // Queue channel key
+            'mutex' => \yii\mutex\MysqlMutex::class, // Mutex used to sync queries
+            'as log' => \yii\queue\LogBehavior::class,
+        ],
     ],
+
+    'controllerMap' => [
+        // ...
+        'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'migrationPath' => null,
+            'migrationNamespaces' => [
+                // ...
+                'yii\queue\db\migrations',
+            ],
+        ],
+    ],
+
     'params' => $params,
     /*
     'controllerMap' => [
@@ -49,7 +70,7 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        // 'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 }
 
