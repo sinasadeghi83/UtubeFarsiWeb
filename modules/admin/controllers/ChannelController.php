@@ -28,6 +28,28 @@ class ChannelController extends ActiveController
         return $behaviors;
     }
 
+    public function actionProfile($id)
+    {
+        $channel = Channel::findOne(['id' => $id]);
+        if (empty($channel)) {
+            throw new NotFoundHttpException("There's no such channel with this id!");
+        }
+        $model = new ImageForm();
+
+        $model->imageFile = UploadedFile::getInstanceByName('imageFile');
+        if ($path = $model->upload()) {
+            // file is uploaded successfully
+            $channel->prof_img_path = $path;
+            $channel->save();
+
+            return $channel;
+        }
+
+        \Yii::$app->response->statusCode = 400;
+
+        return $channel->errors;
+    }
+
     public function actionHeader($id)
     {
         $channel = Channel::findOne(['id' => $id]);

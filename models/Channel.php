@@ -33,7 +33,19 @@ class Channel extends \yii\db\ActiveRecord
             [['joined_at', 'updated_at'], 'safe'],
             [['title', 'username', 'links', 'header_path', 'prof_img_path', 'youtube_subscribers', 'youtube_views'], 'string', 'max' => 255],
             [['username'], 'unique'],
+            ['prof_img_path', 'validateProfileImage'],
         ];
+    }
+
+    public function validateProfileImage($attribute, $params, $cvalidator)
+    {
+        if (empty($attribute)) {
+            return;
+        }
+        [$width, $height] = getimagesize($this->{$attribute});
+        if ($width != $height) {
+            $this->addError($attribute, 'Invalid image dimension for channel profile!');
+        }
     }
 
     public function attributeLabels()

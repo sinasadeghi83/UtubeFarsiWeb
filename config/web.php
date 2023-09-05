@@ -55,7 +55,8 @@ $config = [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'admin/channel',
                     'extraPatterns' => [
-                        'POST header/<id>' => 'header', // uploading header image
+                        'POST header/<id>' => 'header', // uploading header imageو
+                        'POST profile/<id>' => 'profile',
                         // other patterns
                     ],
                 ],
