@@ -40,13 +40,12 @@ class VideoController extends ActiveController
         $model->videoFile = UploadedFile::getInstanceByName('videoFile');
         if ($path = $model->upload()) {
             // file is uploaded successfully
-            // TODO Add queue to transcode to hls
             $video->setVideoByForm($model);
             $video->save();
-            var_dump(\Yii::$app->queue->push(new HlsJob([
+            \Yii::$app->queue->push(new HlsJob([
                 'filePath' => $path,
                 'video' => $video,
-            ])));
+            ]));
 
             return $video;
         }
