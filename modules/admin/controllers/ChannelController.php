@@ -38,9 +38,11 @@ class ChannelController extends ActiveController
 
         $model->imageFile = UploadedFile::getInstanceByName('imageFile');
         if ($path = $model->upload()) {
+            $oldPath = $channel->prof_img_path;
             // file is uploaded successfully
             $channel->prof_img_path = $path;
             $channel->save();
+            $this->removeIfExists($oldPath);
 
             return $channel;
         }
@@ -60,9 +62,12 @@ class ChannelController extends ActiveController
 
         $model->imageFile = UploadedFile::getInstanceByName('imageFile');
         if ($path = $model->upload()) {
+            $oldPath = $channel->header_path;
             // file is uploaded successfully
             $channel->header_path = $path;
             $channel->save();
+
+            $this->removeIfExists($oldPath);
 
             return $channel;
         }
@@ -72,5 +77,14 @@ class ChannelController extends ActiveController
         return [
             'errors' => $channel->errors,
         ];
+    }
+
+    public function removeIfExists($filePath)
+    {
+        if (file_exists($filePath)) {
+            return unlink($filePath);
+        }
+
+        return true;
     }
 }
