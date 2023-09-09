@@ -12,10 +12,15 @@ use yii\helpers\Url;
     document.addEventListener('DOMContentLoaded', function () {
         // Initialize the video.js player
         var video = document.getElementById("video-player");
-        var source = "<?php echo Url::toRoute('stream/'); ?>/PC.m3u8"
+        var source = "<?php echo Url::toRoute('stream/'); ?>/"
         const defaultOptions = {};
         if(Hls.isSupported()){
-            const hls = new Hls();
+            const hls = new Hls({
+				xhrSetup: xhr => {
+					xhr.setRequestHeader('authorization', "Bearer <?php echo $token; ?>")
+					xhr.setRequestHeader('videoid', "<?php echo $video_id; ?>")
+				}
+			});
             hls.loadSource(source);
             hls.on(Hls.Events.MANIFEST_PARSED, function(event, data) {
                 const availableQualities = hls.levels.map((l) => l.height)
@@ -60,38 +65,42 @@ use yii\helpers\Url;
     // Disable access to developer tools
     function detectDevTools() {
         // Redirect or show an alert message to inform users
-        // window.location.href = '<?php echo Url::toRoute('video/error'); ?>';
+        window.location.href = '<?php echo Url::toRoute('video/error'); ?>';
     }
 
-	// Check for browser extensions that may download videos
-	function detectDownloadExtensions() {
-            const extensions = ['Video Downloader', 'SaveFrom.net', 'Video DownloadHelper'];
-            const activeExtensions = extensions.filter(ext => window.navigator.userAgent.includes(ext));
+	//TODO
+	// Code from https://groups.google.com/a/chromium.org/d/msg/chromium-extensions/8ArcsWMBaM4/2GKwVOZm1qMJ
+	// function detectExtension(extensionId, callback) { 
+	// 	var img; 
+	// 	img = new Image(); 
+	// 	img.src = "chrome-extension://" + extensionId + "/test.png"; 
+	// 	img.onload = function() { 
+	// 		callback(true); 
+	// 	}; 
+	// 	img.onerror = function() { 
+	// 		callback(false); 
+	// };
+	// }
 
-            if (activeExtensions.length > 0) {
-        		window.location.href = '<?php echo Url::toRoute('video/error'); ?>';
-            }
-        }
+	// detectExtension("chrome-extension://eimadpbcbfnmbkopoojfekhnkhdbieeh", function(installed) {if(installed){alert('boom!')}});
 
-	// Check for download extensions after the page is fully loaded
-	window.addEventListener('load', detectDownloadExtensions);
+	// function detectVideoDownloaderExtensions() {
+	// 	let videoDownloaderExtensions = ['Video Downloader professional', 'Video DownloadHelper', 'Flash Video Downloader'];
+	// 	let detectedExtensions = [];
+	// 	chrome.management.getAll(function (extensions) {
+	// 		for (let i = 0; i < extensions.length; i++) {
+	// 			if (videoDownloaderExtensions.includes(extensions[i].name) && extensions[i].enabled) {
+	// 				detectedExtensions.push(extensions[i].name);
+	// 			}
+	// 		}
+	// 		console.log('Detected video downloader extensions: ', detectedExtensions);
+	// 	});
+	// }
 
-	function detectVideoDownloaderExtensions() {
-		let videoDownloaderExtensions = ['Video Downloader professional', 'Video DownloadHelper', 'Flash Video Downloader'];
-		let detectedExtensions = [];
-		chrome.management.getAll(function (extensions) {
-			for (let i = 0; i < extensions.length; i++) {
-				if (videoDownloaderExtensions.includes(extensions[i].name) && extensions[i].enabled) {
-					detectedExtensions.push(extensions[i].name);
-				}
-			}
-			console.log('Detected video downloader extensions: ', detectedExtensions);
-		});
-	}
-
-	detectVideoDownloaderExtensions();
+	// detectVideoDownloaderExtensions();
 
 
+	"use strict";
 /// <reference types="./index.d.ts"/>
 /** @typedef {{ moreDebugs: number }} PulseCall */
 /** @typedef {{ isOpenBeat: boolean }} PulseAck */

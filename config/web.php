@@ -49,7 +49,8 @@ $config = [
             'enablePrettyUrl' => true,
             'rules' => [
                 'stream/<fileName>' => 'stream/index', // Maps any other action to SiteController's index action
-                'stream/key/<videoName>' => 'stream/key', // Maps any other action to SiteController's index action
+                'stream/' => 'stream/index', // Maps any other action to SiteController's index action
+                'stream/key/<video_id>' => 'stream/key', // Maps any other action to SiteController's index action
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'admin/license'],
                 [
                     'class' => 'yii\rest\UrlRule',
@@ -81,6 +82,10 @@ $config = [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'video',
                     'except' => ['delete', 'update', 'create'],
+                    'extraPatterns' => [
+                        // 'GET watch/<video_id>' => 'watch',
+                        // other patterns
+                    ],
                 ],
             ],
         ],

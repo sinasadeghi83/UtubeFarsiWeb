@@ -30,7 +30,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody(); ?>
 
-<script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.4.12/hls.min.js"></script>
 <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 
 <header id="header">
