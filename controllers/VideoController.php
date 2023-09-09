@@ -2,65 +2,19 @@
 
 namespace app\controllers;
 
-use Streaming\FFMpeg;
-use yii\helpers\Url;
-use yii\web\Controller;
+use yii\rest\ActiveController;
 
-class VideoController extends Controller
+class VideoController extends ActiveController
 {
-    public const keyExtension = '.pem';
-    public const videoExtension = '.mp4';
+    public $modelClass = 'app\models\Video'; // Change this to your Video model class
 
-    public function actionHls()
+    public function actions()
     {
-        $videoPath = '/var/www/html/public/media/video/';
-        $keyPath = '/var/www/html/public/media/video/key/';
-        $keyExtension = '.pem';
-        $videoExtension = '.mp4';
-        $videoName = 'PC';
+        $actions = parent::actions();
 
-        $ffmpeg = $this->setupFFMpeg();
-        $video = $ffmpeg->open($videoPath.$videoName.$videoExtension);
-        $url = Url::to('/stream/key/'.$videoName);
-        $video->hls()
-            ->encryption($keyPath.$videoName.$keyExtension, $url)
-            ->x264()
-            ->autoGenerateRepresentations([720, 360]) // You can limit the number of representatons
-            ->save()
-        ;
+        // disable the "delete" and "create" actions
+        unset($actions['delete'], $actions['create'], $actions['update']);
 
-        return 'failed';
-    }
-
-    public function actionDash()
-    {
-        // $ffmpeg = $this->setupFFMpeg();
-        // $video = $ffmpeg->open('/var/www/html/public/media/video/wormhole.mp4');
-        // $video->dash()
-        //     ->x264()
-        //     ->autoGenerateRepresentations([720, 360]) // You can limit the number of representatons
-        //     ->save()
-        // ;
-
-        // // if ($result) {
-        // //     return 'success';
-        // // }
-
-        return 'failed';
-    }
-
-    public function actionWatch()
-    {
-        return $this->render('watch');
-    }
-
-    public function actionError()
-    {
-        return $this->render('error');
-    }
-
-    private function setupFFMpeg()
-    {
-        return FFMpeg::create();
+        return $actions;
     }
 }

@@ -47,6 +47,16 @@ class Video extends \yii\db\ActiveRecord
         return $videoName;
     }
 
+    public function fields()
+    {
+        $fields = parent::fields();
+
+        // Exclude the 'video_path' column from the response
+        unset($fields['video_path']);
+
+        return $fields;
+    }
+
     public function attributeLabels()
     {
         return [

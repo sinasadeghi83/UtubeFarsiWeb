@@ -77,6 +77,11 @@ $config = [
                         // other patterns
                     ],
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'video',
+                    'except' => ['delete', 'update', 'create'],
+                ],
             ],
         ],
 
